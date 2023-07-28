@@ -1,4 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import ContactsList from "./components/ContactsList";
 
 const Home: React.FC = () => {
     return (
@@ -8,7 +9,9 @@ const Home: React.FC = () => {
                     <IonTitle>Contacts App</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent fullscreen></IonContent>
+            <IonContent fullscreen>
+                <ContactsList />
+            </IonContent>
         </IonPage>
     );
 };
