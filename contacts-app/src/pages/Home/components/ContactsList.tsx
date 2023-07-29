@@ -1,32 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Contacts } from "@capacitor-community/contacts";
 import { IonItem, IonLabel, IonList } from "@ionic/react";
+import getContacts from "../../../helper/getContacts";
 
 function ContactsList() {
     const [contacts, setContacts] = useState<any[]>([]);
 
     useEffect(() => {
-        async function getContacts() {
-            const permissionStatus = await Contacts.checkPermissions();
-
-            console.log("permissionStatus", permissionStatus);
-
-            if (permissionStatus.contacts === "granted") {
-                const projection = {
-                    // Specify which fields should be retrieved.
-                    name: true,
-                    phones: true,
-                    postalAddresses: true,
-                };
-                const { contacts } = await Contacts.getContacts({ projection });
-                console.log("Retrieved contacts:", contacts);
-                setContacts(contacts);
-            } else {
-                const permissionRequestResult = await Contacts.requestPermissions();
-                console.log("permissionRequestResult", permissionRequestResult);
-            }
+        async function retrieveContactArray() {
+            const projection = {
+                // Specify which fields should be retrieved.
+                name: true,
+            };
+            const contactArray = await getContacts(projection);
+            console.log("contactArray", contactArray);
+            setContacts(contactArray || []);
         }
-        getContacts();
+        retrieveContactArray();
     }, []);
 
     return (
@@ -35,9 +24,9 @@ function ContactsList() {
                 {contacts.map((contact, index) => {
                     return (
                         <IonItem
-                            button
                             detail={true}
                             key={index}
+                            href={`/contact/${contact.contactId}`}
                         >
                             <IonLabel>
                                 {contact.contactId} | {contact.name.display} | {contact.phones[0].number}
