@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import {
     IonContent,
     IonHeader,
@@ -21,6 +21,7 @@ import {
 } from "@ionic/react";
 
 import getContacts from "../../helper/getContacts";
+import { Contacts } from "@capacitor-community/contacts";
 
 interface RouteParams {
     contactId: string;
@@ -29,6 +30,7 @@ interface RouteParams {
 const ContactDetails: React.FC = () => {
     const { contactId } = useParams<RouteParams>();
     const [contactDetails, setContactDetails] = useState<any>();
+    const history = useHistory();
 
     useEffect(() => {
         async function retrieveSingleContact() {
@@ -51,6 +53,15 @@ const ContactDetails: React.FC = () => {
         }, 2000);
     }
 
+    async function deleteCurrentContact(contactId: string) {
+        try {
+            await Contacts.deleteContact({ contactId });
+            history.push("/home");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <IonPage>
             <IonHeader>
@@ -60,25 +71,7 @@ const ContactDetails: React.FC = () => {
                         <IonBackButton defaultHref="/home"></IonBackButton>
                     </IonButtons>
                     <IonButtons slot="end">
-                        <IonButton id="open-action-sheet">Options</IonButton>
-                        <IonActionSheet
-                            trigger="open-action-sheet"
-                            header="Contact Actions"
-                            buttons={[
-                                {
-                                    id: "delete-contact",
-                                    text: "Delete Contact",
-                                    role: "destructive",
-                                    // handler: () => {
-                                    //     console.log("Handler: Delete contact");
-                                    // },
-                                },
-                                {
-                                    text: "Cancel",
-                                    role: "cancel",
-                                },
-                            ]}
-                        ></IonActionSheet>
+                        <IonButton id="delete-contact">Delete</IonButton>
                         <IonAlert
                             trigger="delete-contact"
                             header="Alert"
@@ -95,7 +88,7 @@ const ContactDetails: React.FC = () => {
                                     text: "Confirm",
                                     role: "confirm",
                                     handler: () => {
-                                        console.log("Alert confirmed");
+                                        deleteCurrentContact(contactId);
                                     },
                                 },
                             ]}
