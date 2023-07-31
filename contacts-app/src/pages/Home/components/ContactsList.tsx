@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IonItem, IonLabel, IonList } from "@ionic/react";
+import { IonItem, IonLabel, IonList, IonRefresher, IonRefresherContent, RefresherEventDetail } from "@ionic/react";
 import getContacts from "../../../helper/getContacts";
 
 function ContactsList() {
@@ -18,8 +18,21 @@ function ContactsList() {
         retrieveContactArray();
     }, []);
 
+    function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
+        setTimeout(() => {
+            // Any calls to load data go here
+            event.detail.complete();
+        }, 2000);
+    }
+
     return (
-        <div>
+        <>
+            <IonRefresher
+                slot="fixed"
+                onIonRefresh={handleRefresh}
+            >
+                <IonRefresherContent></IonRefresherContent>
+            </IonRefresher>
             <IonList inset={true}>
                 {contacts.map((contact, index) => {
                     return (
@@ -35,7 +48,7 @@ function ContactsList() {
                     );
                 })}
             </IonList>
-        </div>
+        </>
     );
 }
 

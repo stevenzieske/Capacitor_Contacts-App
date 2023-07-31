@@ -1,5 +1,6 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabButton, IonIcon } from "@ionic/react";
 import ContactsList from "./components/ContactsList";
+import { add } from "ionicons/icons";
 
 const Home: React.FC = () => {
     return (
@@ -12,6 +13,15 @@ const Home: React.FC = () => {
             <IonContent fullscreen>
                 <ContactsList />
             </IonContent>
+            <IonFab
+                slot="fixed"
+                vertical="bottom"
+                horizontal="end"
+            >
+                <IonFabButton>
+                    <IonIcon icon={add}></IonIcon>
+                </IonFabButton>
+            </IonFab>
         </IonPage>
     );
 };
