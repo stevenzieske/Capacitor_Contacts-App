@@ -107,11 +107,11 @@ const ContactDetails: React.FC = () => {
                 {contactDetails ? (
                     <IonList>
                         <IonItem>
-                            <IonLabel>Vorname</IonLabel>
+                            <IonLabel>First Name</IonLabel>
                             <IonText slot="end">{contactDetails?.name.given}</IonText>
                         </IonItem>
                         <IonItem>
-                            <IonLabel>Nachname</IonLabel>
+                            <IonLabel>Last Name</IonLabel>
                             <IonText slot="end">{contactDetails?.name.family}</IonText>
                         </IonItem>
                         {contactDetails?.phones ? (
