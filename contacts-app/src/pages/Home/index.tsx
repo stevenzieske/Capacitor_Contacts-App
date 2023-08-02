@@ -18,7 +18,7 @@ const Home: React.FC = () => {
                 vertical="bottom"
                 horizontal="end"
             >
-                <IonFabButton>
+                <IonFabButton href={`/newContact`}>
                     <IonIcon icon={add}></IonIcon>
                 </IonFabButton>
             </IonFab>

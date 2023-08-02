@@ -18,6 +18,7 @@ import {
     IonActionSheet,
     IonButton,
     IonAlert,
+    IonLoading,
 } from "@ionic/react";
 
 import getContacts from "../../helper/getContacts";
@@ -103,52 +104,59 @@ const ContactDetails: React.FC = () => {
                 >
                     <IonRefresherContent></IonRefresherContent>
                 </IonRefresher>
-                <IonList>
-                    <IonItem>
-                        <IonLabel>Vorname</IonLabel>
-                        <IonText slot="end">{contactDetails?.name.given}</IonText>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel>Nachname</IonLabel>
-                        <IonText slot="end">{contactDetails?.name.family}</IonText>
-                    </IonItem>
-                    {contactDetails?.phones ? (
-                        contactDetails?.phones.map((phone: any, index: number) => (
-                            <IonItem key={index}>
-                                <IonLabel>Phone number ({phone.type})</IonLabel>
-                                <IonText slot="end">{phone.number}</IonText>
-                            </IonItem>
-                        ))
-                    ) : (
+                {contactDetails ? (
+                    <IonList>
                         <IonItem>
-                            <IonLabel>Phone number</IonLabel>
-                            <IonText slot="end">-</IonText>
+                            <IonLabel>Vorname</IonLabel>
+                            <IonText slot="end">{contactDetails?.name.given}</IonText>
                         </IonItem>
-                    )}
-                    {contactDetails?.emails ? (
-                        contactDetails?.emails.map((email: any, index: number) => (
-                            <IonItem key={index}>
-                                <IonLabel>E-Mail ({email.type})</IonLabel>
-                                <IonText slot="end">{email.address}</IonText>
-                            </IonItem>
-                        ))
-                    ) : (
                         <IonItem>
-                            <IonLabel>E-Mail</IonLabel>
-                            <IonText slot="end">-</IonText>
+                            <IonLabel>Nachname</IonLabel>
+                            <IonText slot="end">{contactDetails?.name.family}</IonText>
                         </IonItem>
-                    )}
-                    <IonItem>
-                        <IonLabel>Birthday</IonLabel>
-                        {contactDetails?.birthday ? (
-                            <IonText slot="end">
-                                {contactDetails?.birthday?.day}.{contactDetails?.birthday?.month}.{contactDetails?.birthday?.year}
-                            </IonText>
+                        {contactDetails?.phones ? (
+                            contactDetails?.phones.map((phone: any, index: number) => (
+                                <IonItem key={index}>
+                                    <IonLabel>Phone number ({phone.type})</IonLabel>
+                                    <IonText slot="end">{phone.number}</IonText>
+                                </IonItem>
+                            ))
                         ) : (
-                            <IonText slot="end">-</IonText>
+                            <IonItem>
+                                <IonLabel>Phone number</IonLabel>
+                                <IonText slot="end">-</IonText>
+                            </IonItem>
                         )}
-                    </IonItem>
-                </IonList>
+                        {contactDetails?.emails ? (
+                            contactDetails?.emails.map((email: any, index: number) => (
+                                <IonItem key={index}>
+                                    <IonLabel>E-Mail ({email.type})</IonLabel>
+                                    <IonText slot="end">{email.address}</IonText>
+                                </IonItem>
+                            ))
+                        ) : (
+                            <IonItem>
+                                <IonLabel>E-Mail</IonLabel>
+                                <IonText slot="end">-</IonText>
+                            </IonItem>
+                        )}
+                        <IonItem>
+                            <IonLabel>Birthday</IonLabel>
+                            {contactDetails?.birthday ? (
+                                <IonText slot="end">
+                                    {contactDetails?.birthday?.day}.{contactDetails?.birthday?.month}.{contactDetails?.birthday?.year}
+                                </IonText>
+                            ) : (
+                                <IonText slot="end">-</IonText>
+                            )}
+                        </IonItem>
+                    </IonList>
+                ) : (
+                    <IonLoading
+                        isOpen={true}
+                        message={"Loading..."}
+                    />
+                )}
             </IonContent>
         </IonPage>
     );
