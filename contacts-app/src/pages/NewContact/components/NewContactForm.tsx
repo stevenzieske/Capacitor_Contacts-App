@@ -147,7 +147,7 @@ function NewContactForm() {
                         ></IonInput>
                         <IonSelect
                             slot="end"
-                            value={PhoneType.Home}
+                            placeholder="Select Type"
                             onIonChange={(e) => {
                                 setPhoneType(e.detail.value);
                             }}
@@ -187,9 +187,9 @@ function NewContactForm() {
                         ></IonInput>
                         <IonSelect
                             slot="end"
-                            value={EmailType.Home}
+                            placeholder="Select Type"
                             onIonChange={(e) => {
-                                setPhoneType(e.detail.value);
+                                setMailType(e.detail.value);
                             }}
                         >
                             <IonSelectOption value={EmailType.Home}>Home</IonSelectOption>

@@ -19,6 +19,7 @@ import {
     IonButton,
     IonAlert,
     IonLoading,
+    IonToast,
 } from "@ionic/react";
 
 import getContacts from "../../helper/getContacts";
@@ -31,27 +32,28 @@ interface RouteParams {
 const ContactDetails: React.FC = () => {
     const { contactId } = useParams<RouteParams>();
     const [contactDetails, setContactDetails] = useState<any>();
+    const [toastIsOpen, setToastIsOpen] = useState(false);
     const history = useHistory();
 
+    async function retrieveSingleContact() {
+        const projection = {
+            // Specify which fields should be retrieved.
+            name: true,
+            phones: true,
+            postalAddresses: true,
+        };
+        const contactArray = await getContacts(projection);
+        setContactDetails(contactArray?.find((contact) => contact.contactId === contactId));
+    }
+
     useEffect(() => {
-        async function retrieveSingleContact() {
-            const projection = {
-                // Specify which fields should be retrieved.
-                name: true,
-                phones: true,
-                postalAddresses: true,
-            };
-            const contactArray = await getContacts(projection);
-            setContactDetails(contactArray?.find((contact) => contact.contactId === contactId));
-        }
         retrieveSingleContact();
     }, []);
 
     function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
-        setTimeout(() => {
-            // Any calls to load data go here
-            event.detail.complete();
-        }, 2000);
+        retrieveSingleContact();
+        event.detail.complete();
+        setToastIsOpen(true);
     }
 
     async function deleteCurrentContact(contactId: string) {
@@ -104,6 +106,12 @@ const ContactDetails: React.FC = () => {
                 >
                     <IonRefresherContent></IonRefresherContent>
                 </IonRefresher>
+                <IonToast
+                    isOpen={toastIsOpen}
+                    message="This page has been refreshed."
+                    onDidDismiss={() => setToastIsOpen(false)}
+                    duration={3000}
+                ></IonToast>
                 {contactDetails ? (
                     <IonList>
                         <IonItem>

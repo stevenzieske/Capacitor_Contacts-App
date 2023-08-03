@@ -15,7 +15,7 @@ async function getContacts(projection: any) {
             return nameA.localeCompare(nameB);
         });
 
-        console.log("Sorted contacts:", contacts);
+        // console.log("Sorted contacts:", contacts);
         return contacts;
     } else {
         const permissionRequestResult = await Contacts.requestPermissions();
