@@ -15,7 +15,6 @@ import {
     RefresherEventDetail,
     IonRefresher,
     IonRefresherContent,
-    IonActionSheet,
     IonButton,
     IonAlert,
     IonLoading,
@@ -24,6 +23,7 @@ import {
 
 import getContacts from "../../helper/getContacts";
 import { Contacts } from "@capacitor-community/contacts";
+import { CallNumber } from "@ionic-native/call-number";
 
 interface RouteParams {
     contactId: string;
@@ -65,6 +65,14 @@ const ContactDetails: React.FC = () => {
         }
     }
 
+    async function callNumber(phoneNumber?: string) {
+        try {
+            await CallNumber.callNumber("017664797823", true);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <IonPage>
             <IonHeader>
@@ -73,6 +81,7 @@ const ContactDetails: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/home"></IonBackButton>
                     </IonButtons>
+                    <IonButton onClick={() => callNumber()}>test</IonButton>
                     <IonButtons slot="end">
                         <IonButton id="delete-contact">Delete</IonButton>
                         <IonAlert
