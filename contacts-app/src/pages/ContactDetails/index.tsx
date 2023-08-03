@@ -19,11 +19,16 @@ import {
     IonAlert,
     IonLoading,
     IonToast,
+    IonIcon,
+    IonItemSliding,
+    IonItemOption,
+    IonItemOptions,
 } from "@ionic/react";
 
 import getContacts from "../../helper/getContacts";
 import { Contacts } from "@capacitor-community/contacts";
-import { CallNumber } from "@ionic-native/call-number";
+import { callOutline, copyOutline, mailOutline } from "ionicons/icons";
+import { Clipboard } from "@capacitor/clipboard";
 
 interface RouteParams {
     contactId: string;
@@ -33,6 +38,7 @@ const ContactDetails: React.FC = () => {
     const { contactId } = useParams<RouteParams>();
     const [contactDetails, setContactDetails] = useState<any>();
     const [toastIsOpen, setToastIsOpen] = useState(false);
+    const [clipboardToastIsOpen, setClipboardToastIsOpen] = useState(false);
     const history = useHistory();
 
     async function retrieveSingleContact() {
@@ -65,9 +71,17 @@ const ContactDetails: React.FC = () => {
         }
     }
 
-    async function callNumber(phoneNumber?: string) {
+    function openExternal(type: string, payload: string) {
         try {
-            await CallNumber.callNumber("017664797823", true);
+            window.open(`${type}:${payload}`);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function copyToClipboard(text: string) {
+        try {
+            await Clipboard.write({ string: text });
         } catch (error) {
             console.log(error);
         }
@@ -81,7 +95,6 @@ const ContactDetails: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/home"></IonBackButton>
                     </IonButtons>
-                    <IonButton onClick={() => callNumber()}>test</IonButton>
                     <IonButtons slot="end">
                         <IonButton id="delete-contact">Delete</IonButton>
                         <IonAlert
@@ -121,6 +134,12 @@ const ContactDetails: React.FC = () => {
                     onDidDismiss={() => setToastIsOpen(false)}
                     duration={3000}
                 ></IonToast>
+                <IonToast
+                    isOpen={clipboardToastIsOpen}
+                    message="Copied to clipboard."
+                    onDidDismiss={() => setClipboardToastIsOpen(false)}
+                    duration={3000}
+                ></IonToast>
                 {contactDetails ? (
                     <IonList>
                         <IonItem>
@@ -133,10 +152,39 @@ const ContactDetails: React.FC = () => {
                         </IonItem>
                         {contactDetails?.phones ? (
                             contactDetails?.phones.map((phone: any, index: number) => (
-                                <IonItem key={index}>
-                                    <IonLabel>Phone number ({phone.type})</IonLabel>
-                                    <IonText slot="end">{phone.number}</IonText>
-                                </IonItem>
+                                <IonItemSliding key={index}>
+                                    <IonItemOptions side="start">
+                                        <IonItemOption
+                                            color="medium"
+                                            onClick={() => {
+                                                copyToClipboard(phone.number);
+                                                setClipboardToastIsOpen(true);
+                                            }}
+                                        >
+                                            <IonIcon
+                                                slot="icon-only"
+                                                icon={copyOutline}
+                                            ></IonIcon>
+                                        </IonItemOption>
+                                    </IonItemOptions>
+                                    <IonItem>
+                                        <IonLabel>Phone number ({phone.type})</IonLabel>
+                                        <IonText slot="end">{phone.number}</IonText>
+                                    </IonItem>
+                                    <IonItemOptions side="end">
+                                        <IonItemOption
+                                            color="success"
+                                            onClick={() => {
+                                                openExternal("tel", phone.number);
+                                            }}
+                                        >
+                                            <IonIcon
+                                                slot="icon-only"
+                                                icon={callOutline}
+                                            ></IonIcon>
+                                        </IonItemOption>
+                                    </IonItemOptions>
+                                </IonItemSliding>
                             ))
                         ) : (
                             <IonItem>
@@ -146,10 +194,39 @@ const ContactDetails: React.FC = () => {
                         )}
                         {contactDetails?.emails ? (
                             contactDetails?.emails.map((email: any, index: number) => (
-                                <IonItem key={index}>
-                                    <IonLabel>E-Mail ({email.type})</IonLabel>
-                                    <IonText slot="end">{email.address}</IonText>
-                                </IonItem>
+                                <IonItemSliding key={index}>
+                                    <IonItemOptions side="start">
+                                        <IonItemOption
+                                            color="medium"
+                                            onClick={() => {
+                                                copyToClipboard(email.address);
+                                                setClipboardToastIsOpen(true);
+                                            }}
+                                        >
+                                            <IonIcon
+                                                slot="icon-only"
+                                                icon={copyOutline}
+                                            ></IonIcon>
+                                        </IonItemOption>
+                                    </IonItemOptions>
+                                    <IonItem key={index}>
+                                        <IonLabel>E-Mail ({email.type})</IonLabel>
+                                        <IonText slot="end">{email.address}</IonText>
+                                    </IonItem>
+                                    <IonItemOptions side="end">
+                                        <IonItemOption
+                                            color="success"
+                                            onClick={() => {
+                                                openExternal("mailto", email.address);
+                                            }}
+                                        >
+                                            <IonIcon
+                                                slot="icon-only"
+                                                icon={mailOutline}
+                                            ></IonIcon>
+                                        </IonItemOption>
+                                    </IonItemOptions>
+                                </IonItemSliding>
                             ))
                         ) : (
                             <IonItem>
