@@ -77,7 +77,8 @@ function ContactsList() {
                                         href={`/contact/${contact.contactId}`}
                                     >
                                         <IonLabel>
-                                            {contact.contactId} | {contact.name.display} | {contact.phones[0].number}
+                                            <h2>{contact.name.display}</h2>
+                                            <p>{contact.phones ? contact.phones[0].number : "No phone number"}</p>
                                         </IonLabel>
                                     </IonItem>
                                 ) : null;
