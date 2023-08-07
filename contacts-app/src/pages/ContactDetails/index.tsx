@@ -46,7 +46,8 @@ const ContactDetails: React.FC = () => {
             // Specify which fields should be retrieved.
             name: true,
             phones: true,
-            postalAddresses: true,
+            emails: true,
+            birthday: true,
         };
         const contactArray = await getContacts(projection);
         setContactDetails(contactArray?.find((contact) => contact.contactId === contactId));

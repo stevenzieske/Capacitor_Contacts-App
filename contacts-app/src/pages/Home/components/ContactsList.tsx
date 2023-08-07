@@ -21,6 +21,7 @@ function ContactsList() {
         const projection = {
             // Specify which fields should be retrieved.
             name: true,
+            phones: true,
         };
         const contactArray = await getContacts(projection);
         setContacts(contactArray || []);
