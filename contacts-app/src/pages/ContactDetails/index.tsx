@@ -50,6 +50,8 @@ const ContactDetails: React.FC = () => {
         };
         const contactArray = await getContacts(projection);
         setContactDetails(contactArray?.find((contact) => contact.contactId === contactId));
+
+        console.log(contactArray?.find((contact) => contact.contactId === contactId));
     }
 
     useEffect(() => {
@@ -140,117 +142,110 @@ const ContactDetails: React.FC = () => {
                     onDidDismiss={() => setClipboardToastIsOpen(false)}
                     duration={3000}
                 ></IonToast>
-                {contactDetails ? (
-                    <IonList>
+                <IonList>
+                    <IonItem>
+                        <IonLabel>First Name</IonLabel>
+                        <IonText slot="end">{contactDetails?.name.given}</IonText>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel>Last Name</IonLabel>
+                        <IonText slot="end">{contactDetails?.name.family}</IonText>
+                    </IonItem>
+                    {contactDetails?.phones ? (
+                        contactDetails?.phones.map((phone: any, index: number) => (
+                            <IonItemSliding key={index}>
+                                <IonItemOptions side="start">
+                                    <IonItemOption
+                                        color="medium"
+                                        onClick={() => {
+                                            copyToClipboard(phone.number);
+                                            setClipboardToastIsOpen(true);
+                                        }}
+                                    >
+                                        <IonIcon
+                                            slot="icon-only"
+                                            icon={copyOutline}
+                                        ></IonIcon>
+                                    </IonItemOption>
+                                </IonItemOptions>
+                                <IonItem>
+                                    <IonLabel>Phone number ({phone.type})</IonLabel>
+                                    <IonText slot="end">{phone.number}</IonText>
+                                </IonItem>
+                                <IonItemOptions side="end">
+                                    <IonItemOption
+                                        color="success"
+                                        onClick={() => {
+                                            openExternal("tel", phone.number);
+                                        }}
+                                    >
+                                        <IonIcon
+                                            slot="icon-only"
+                                            icon={callOutline}
+                                        ></IonIcon>
+                                    </IonItemOption>
+                                </IonItemOptions>
+                            </IonItemSliding>
+                        ))
+                    ) : (
                         <IonItem>
-                            <IonLabel>First Name</IonLabel>
-                            <IonText slot="end">{contactDetails?.name.given}</IonText>
+                            <IonLabel>Phone number</IonLabel>
+                            <IonText slot="end">-</IonText>
                         </IonItem>
+                    )}
+                    {contactDetails?.emails ? (
+                        contactDetails?.emails.map((email: any, index: number) => (
+                            <IonItemSliding key={index}>
+                                <IonItemOptions side="start">
+                                    <IonItemOption
+                                        color="medium"
+                                        onClick={() => {
+                                            copyToClipboard(email.address);
+                                            setClipboardToastIsOpen(true);
+                                        }}
+                                    >
+                                        <IonIcon
+                                            slot="icon-only"
+                                            icon={copyOutline}
+                                        ></IonIcon>
+                                    </IonItemOption>
+                                </IonItemOptions>
+                                <IonItem key={index}>
+                                    <IonLabel>E-Mail ({email.type})</IonLabel>
+                                    <IonText slot="end">{email.address}</IonText>
+                                </IonItem>
+                                <IonItemOptions side="end">
+                                    <IonItemOption
+                                        color="success"
+                                        onClick={() => {
+                                            openExternal("mailto", email.address);
+                                        }}
+                                    >
+                                        <IonIcon
+                                            slot="icon-only"
+                                            icon={mailOutline}
+                                        ></IonIcon>
+                                    </IonItemOption>
+                                </IonItemOptions>
+                            </IonItemSliding>
+                        ))
+                    ) : (
                         <IonItem>
-                            <IonLabel>Last Name</IonLabel>
-                            <IonText slot="end">{contactDetails?.name.family}</IonText>
+                            <IonLabel>E-Mail</IonLabel>
+                            <IonText slot="end">-</IonText>
                         </IonItem>
-                        {contactDetails?.phones ? (
-                            contactDetails?.phones.map((phone: any, index: number) => (
-                                <IonItemSliding key={index}>
-                                    <IonItemOptions side="start">
-                                        <IonItemOption
-                                            color="medium"
-                                            onClick={() => {
-                                                copyToClipboard(phone.number);
-                                                setClipboardToastIsOpen(true);
-                                            }}
-                                        >
-                                            <IonIcon
-                                                slot="icon-only"
-                                                icon={copyOutline}
-                                            ></IonIcon>
-                                        </IonItemOption>
-                                    </IonItemOptions>
-                                    <IonItem>
-                                        <IonLabel>Phone number ({phone.type})</IonLabel>
-                                        <IonText slot="end">{phone.number}</IonText>
-                                    </IonItem>
-                                    <IonItemOptions side="end">
-                                        <IonItemOption
-                                            color="success"
-                                            onClick={() => {
-                                                openExternal("tel", phone.number);
-                                            }}
-                                        >
-                                            <IonIcon
-                                                slot="icon-only"
-                                                icon={callOutline}
-                                            ></IonIcon>
-                                        </IonItemOption>
-                                    </IonItemOptions>
-                                </IonItemSliding>
-                            ))
+                    )}
+                    <IonItem>
+                        <IonLabel>Birthday</IonLabel>
+                        {contactDetails?.birthday ? (
+                            <IonText slot="end">
+                                {contactDetails?.birthday?.day}.{contactDetails?.birthday?.month}.{contactDetails?.birthday?.year}
+                            </IonText>
                         ) : (
-                            <IonItem>
-                                <IonLabel>Phone number</IonLabel>
-                                <IonText slot="end">-</IonText>
-                            </IonItem>
+                            <IonText slot="end">-</IonText>
                         )}
-                        {contactDetails?.emails ? (
-                            contactDetails?.emails.map((email: any, index: number) => (
-                                <IonItemSliding key={index}>
-                                    <IonItemOptions side="start">
-                                        <IonItemOption
-                                            color="medium"
-                                            onClick={() => {
-                                                copyToClipboard(email.address);
-                                                setClipboardToastIsOpen(true);
-                                            }}
-                                        >
-                                            <IonIcon
-                                                slot="icon-only"
-                                                icon={copyOutline}
-                                            ></IonIcon>
-                                        </IonItemOption>
-                                    </IonItemOptions>
-                                    <IonItem key={index}>
-                                        <IonLabel>E-Mail ({email.type})</IonLabel>
-                                        <IonText slot="end">{email.address}</IonText>
-                                    </IonItem>
-                                    <IonItemOptions side="end">
-                                        <IonItemOption
-                                            color="success"
-                                            onClick={() => {
-                                                openExternal("mailto", email.address);
-                                            }}
-                                        >
-                                            <IonIcon
-                                                slot="icon-only"
-                                                icon={mailOutline}
-                                            ></IonIcon>
-                                        </IonItemOption>
-                                    </IonItemOptions>
-                                </IonItemSliding>
-                            ))
-                        ) : (
-                            <IonItem>
-                                <IonLabel>E-Mail</IonLabel>
-                                <IonText slot="end">-</IonText>
-                            </IonItem>
-                        )}
-                        <IonItem>
-                            <IonLabel>Birthday</IonLabel>
-                            {contactDetails?.birthday ? (
-                                <IonText slot="end">
-                                    {contactDetails?.birthday?.day}.{contactDetails?.birthday?.month}.{contactDetails?.birthday?.year}
-                                </IonText>
-                            ) : (
-                                <IonText slot="end">-</IonText>
-                            )}
-                        </IonItem>
-                    </IonList>
-                ) : (
-                    <IonLoading
-                        isOpen={true}
-                        message={"Loading..."}
-                    />
-                )}
+                    </IonItem>
+                </IonList>
             </IonContent>
         </IonPage>
     );
