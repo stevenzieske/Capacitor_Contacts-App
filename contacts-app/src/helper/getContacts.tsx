@@ -1,7 +1,7 @@
 import { Contacts } from "@capacitor-community/contacts";
 
 async function getContacts(projection: any) {
-    const permissionStatus = await Contacts.checkPermissions();
+    const permissionStatus = await Contacts.requestPermissions();
 
     console.log("permissionStatus", permissionStatus);
 
@@ -18,8 +18,7 @@ async function getContacts(projection: any) {
         // console.log("Sorted contacts:", contacts);
         return contacts;
     } else {
-        const permissionRequestResult = await Contacts.requestPermissions();
-        console.log("permissionRequestResult", permissionRequestResult);
+        console.log("No permission to fetch contacts");
     }
 }
 

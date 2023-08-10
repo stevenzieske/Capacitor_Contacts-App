@@ -1,8 +1,10 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabButton, IonIcon } from "@ionic/react";
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabButton, IonIcon, IonSearchbar, IonText } from "@ionic/react";
 import ContactsList from "./components/ContactsList";
 import { add } from "ionicons/icons";
+import { useState } from "react";
 
 const Home: React.FC = () => {
+    const [searchText, setSearchText] = useState("");
     return (
         <IonPage>
             <IonHeader>
@@ -11,7 +13,12 @@ const Home: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                <ContactsList />
+                <IonSearchbar
+                    animated={true}
+                    placeholder="Search"
+                    onIonInput={(e) => setSearchText(e.detail.value!)}
+                ></IonSearchbar>
+                <ContactsList searchText={searchText} />
             </IonContent>
             <IonFab
                 slot="fixed"

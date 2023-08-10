@@ -12,9 +12,8 @@ import {
 } from "@ionic/react";
 import getContacts from "../../../helper/getContacts";
 
-function ContactsList() {
+function ContactsList({ searchText }: { searchText: string }) {
     const [contacts, setContacts] = useState<any[]>([]);
-    const [divideLetters, setDivideLetters] = useState<string[]>([]);
     const [toastIsOpen, setToastIsOpen] = useState(false);
 
     async function retrieveContactArray() {
@@ -25,21 +24,10 @@ function ContactsList() {
         };
         const contactArray = await getContacts(projection);
         setContacts(contactArray || []);
-
-        const firstLetters: string[] = [];
-        // Get the first letter of each contact name.
-        contactArray?.forEach((contact) => {
-            const firstLetter = contact.name?.given?.charAt(0);
-            if (firstLetter) {
-                firstLetters.push(firstLetter);
-            }
-        });
-        // Remove duplicates.
-        const uniqueFirstLetters = [...new Set(firstLetters)];
-        setDivideLetters(uniqueFirstLetters);
     }
 
     useEffect(() => {
+        console.log("useEffect");
         retrieveContactArray();
     }, []);
 
@@ -48,6 +36,15 @@ function ContactsList() {
         event.detail.complete();
         setToastIsOpen(true);
     }
+
+    const groupedContacts = contacts.reduce((groups: { [key: string]: any[] }, contact) => {
+        const firstLetter = contact.name.display[0].toUpperCase();
+        if (!groups[firstLetter]) {
+            groups[firstLetter] = [];
+        }
+        groups[firstLetter].push(contact);
+        return groups;
+    }, {});
 
     return (
         <>
@@ -64,26 +61,28 @@ function ContactsList() {
                 duration={3000}
             ></IonToast>
             <IonList>
-                {divideLetters.map((letter, index) => {
+                {Object.entries(groupedContacts).map(([letter, contacts]) => {
+                    const filteredContacts = contacts.filter((contact) => contact.name.display.toLowerCase().includes(searchText.toLowerCase()));
+                    if (filteredContacts.length === 0) {
+                        return null;
+                    }
                     return (
-                        <IonItemGroup key={index}>
+                        <IonItemGroup key={letter}>
                             <IonItemDivider>
                                 <IonLabel>{letter}</IonLabel>
                             </IonItemDivider>
-                            {contacts.map((contact, index) => {
-                                return contact.name.display.charAt(0) === letter ? (
-                                    <IonItem
-                                        detail={true}
-                                        key={index}
-                                        href={`/contact/${contact.contactId}`}
-                                    >
-                                        <IonLabel>
-                                            <h2>{contact.name.display}</h2>
-                                            <p>{contact.phones ? contact.phones[0].number : "No phone number"}</p>
-                                        </IonLabel>
-                                    </IonItem>
-                                ) : null;
-                            })}
+                            {filteredContacts.map((contact) => (
+                                <IonItem
+                                    detail={true}
+                                    key={contact.contactId}
+                                    href={`/contact/${contact.contactId}`}
+                                >
+                                    <IonLabel>
+                                        <h2>{contact.name.display}</h2>
+                                        <p>{contact.phones ? contact.phones[0].number : "No phone number"}</p>
+                                    </IonLabel>
+                                </IonItem>
+                            ))}
                         </IonItemGroup>
                     );
                 })}
