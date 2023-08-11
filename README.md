@@ -54,6 +54,6 @@ The task is to create an Android or iOS app with which the contacts on the devic
 -   Slide the Phone Number or E-Mail Address to the right to copy the number/address to the clipboard<br/>
     <img src="./docuAssets/details_tel_copy.png" alt="newContact" width="200"/>
     <img src="./docuAssets/details_mail_copy.png" alt="newContact" width="200"/><br/>
--   To delete a contact click on the **Delete** button in the top right corner. You will be prompted with a confirmation dialog. Clicking **Yes** will delete the contact and navigate back to the home screen. Clicking **No** will close the dialog.<br/>
+-   To delete a contact click on the **Delete** button in the top right corner. You will be prompted with a confirmation dialog. Clicking **Confirm** will delete the contact and navigate back to the home screen. Clicking **Cancel** will close the dialog.<br/>
     <img src="./docuAssets/details_delete.png" alt="newContact" width="200"/>
     <br/>
