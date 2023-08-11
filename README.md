@@ -1,5 +1,10 @@
 # Capacitor Contacts App
 
+This app has been tested on:
+- IOS emulator
+- IOS physical device
+- Android emulator
+
 ## Requirements
 
 The task is to create an Android or iOS app with which the contacts on the device can be managed.
@@ -28,11 +33,6 @@ The task is to create an Android or iOS app with which the contacts on the devic
 -   [x] There is an insert view that is used to add new contacts.
 -   [x] The insert view has at least the following input fields: First Name, surname, telephone number, e-mail address and birthday.
 -   [x] The insert view has two buttons for cancelling and saving the entry.
-
-## TODO
-
--   [ ] Overall testing of the app
--   [ ] Test _Contacts.requestPermissions()_ in _getContacts()_ function
 
 ## Functions
 
