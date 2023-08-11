@@ -36,13 +36,24 @@ The task is to create an Android or iOS app with which the contacts on the devic
 
 ## Functions
 
--   The **Home screen** shows all contacts from the device <br/> All contacts are grouped and sorted by the first name <br/>Pull the screen down to refresh data on the Home screen and the Details page<br/>
-    <img src="./docuAssets/homeScreen.png" alt="homeScreen" width="200"/>
+-   The **Home screen** shows all contacts from the device. All contacts are grouped and sorted by the first name. If no contact can be found you will see an empty screen.
+-   Use the **search bar** to search for a specific contact. The contacts will be searched by containing string.
+-   Pull the screen down to fetch the data again.<br/>
+    <img src="./docuAssets/home_empty.png" alt="homeScreen" width="200"/>
+    <img src="./docuAssets/search.png" alt="homeScreen" width="200"/><br/>
+-   If the app has no permission to access the contacts you will be prompted with the following error message. By clicking the **Open Settings** button you will be directed to the app settings. Here you can grant access to the app.<br/>
+    <img src="./docuAssets/home_missingPermission.png" alt="homeScreen" width="200"/>
+    <img src="./docuAssets/settings.png" alt="newContact" width="200"/><br/>
+-   The **Insert view** is used to add new contacts you can access it by clicking the button in the lower right corner of the home screen. The following fields are required: First Name, Last Name, Phone Number, Phone Number Type, E-Mail Address, E-Mail Address Type and Birthday. To save the new contact you have to fill all the fields. The back button will discard all changes and navigate back to the home screen.<br/>
+    <img src="./docuAssets/newContact.png" alt="newContact" width="200"/><br/>
+-   To access the **details page** select a contact on the home screen. Here you can see all the information available about this contact.<br/>
+    <img src="./docuAssets/details.png" alt="newContact" width="200"/><br/>
+-   Slide the Phone Number or E-Mail Address to the left to call the number/write an E-Mail<br/>
+    <img src="./docuAssets/details_tel_call.png" alt="newContact" width="200"/>
+    <img src="./docuAssets/details_mail_write.png" alt="newContact" width="200"/>
+-   Slide the Phone Number or E-Mail Address to the right to copy the number/address to the clipboard<br/>
+    <img src="./docuAssets/details_tel_copy.png" alt="newContact" width="200"/>
+    <img src="./docuAssets/details_mail_copy.png" alt="newContact" width="200"/><br/>
+-   To delete a contact click on the **Delete** button in the top right corner. You will be prompted with a confirmation dialog. Clicking **Yes** will delete the contact and navigate back to the home screen. Clicking **No** will close the dialog.<br/>
+    <img src="./docuAssets/details_delete.png" alt="newContact" width="200"/>
     <br/>
--   The **Details page** shows the first name, last name, all phone numbers, all mail addresses and the birthday<br/> Slide the phone numbers and mail addresses to the right to copy them to the clipboard and to the left to call the number/ send a message to the mail<br/>Click the button in the upper right corner to delete the contact and beeing redirected to the home screen<br/>
-    <img src="./docuAssets/call_phoneNumber.png" alt="call_phoneNumber" width="200"/>
-    <img src="./docuAssets/copy_phoneNumber.png" alt="copy_phoneNumber" width="200"/>
-    <br/>
--   Click the button in the right lower corner to create a new contact<br/>You have to fill in **all** fields to create the new contact<br/>
-    <img src="./docuAssets/newContactBtn.png" alt="newContactBtn" width="200"/>
-    <img src="./docuAssets/newContact.png" alt="newContact" width="200"/>
