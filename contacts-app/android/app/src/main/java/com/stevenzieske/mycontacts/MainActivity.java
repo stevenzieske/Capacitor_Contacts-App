@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.stevenzieske.mycontacts;
 
 import com.getcapacitor.BridgeActivity;
 

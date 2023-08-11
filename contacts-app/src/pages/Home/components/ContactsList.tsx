@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { NativeSettings, AndroidSettings, IOSSettings } from "capacitor-native-settings";
 import {
+    IonAlert,
     IonItem,
     IonItemDivider,
     IonItemGroup,
@@ -13,6 +15,7 @@ import {
 import getContacts from "../../../helper/getContacts";
 
 function ContactsList({ searchText }: { searchText: string }) {
+    const [alertIsOpen, setAlertIsOpen] = useState(false);
     const [contacts, setContacts] = useState<any[]>([]);
     const [toastIsOpen, setToastIsOpen] = useState(false);
 
@@ -23,7 +26,15 @@ function ContactsList({ searchText }: { searchText: string }) {
             phones: true,
         };
         const contactArray = await getContacts(projection);
-        setContacts(contactArray || []);
+
+        console.log("contactArray", contactArray);
+
+        if (contactArray === null) {
+            setAlertIsOpen(true);
+            return;
+        } else {
+            setContacts(contactArray || []);
+        }
     }
 
     useEffect(() => {
@@ -46,6 +57,14 @@ function ContactsList({ searchText }: { searchText: string }) {
         return groups;
     }, {});
 
+    function onDismiss() {
+        setAlertIsOpen(false);
+        NativeSettings.open({
+            optionAndroid: AndroidSettings.ApplicationDetails,
+            optionIOS: IOSSettings.App,
+        });
+    }
+
     return (
         <>
             <IonRefresher
@@ -60,6 +79,13 @@ function ContactsList({ searchText }: { searchText: string }) {
                 onDidDismiss={() => setToastIsOpen(false)}
                 duration={3000}
             ></IonToast>
+            <IonAlert
+                isOpen={alertIsOpen}
+                header="Missing permission"
+                message="This app needs permission to access your contacts."
+                buttons={["Open Settings"]}
+                onDidDismiss={() => onDismiss()}
+            ></IonAlert>
             <IonList>
                 {Object.entries(groupedContacts).map(([letter, contacts]) => {
                     const filteredContacts = contacts.filter((contact) => contact.name.display.toLowerCase().includes(searchText.toLowerCase()));

@@ -19,6 +19,7 @@ async function getContacts(projection: any) {
         return contacts;
     } else {
         console.log("No permission to fetch contacts");
+        return null;
     }
 }
 
