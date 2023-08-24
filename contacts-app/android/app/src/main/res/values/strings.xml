@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">contacts-app</string>
-    <string name="title_activity_main">contacts-app</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">MyContacts</string>
+    <string name="title_activity_main">MyContacts</string>
+    <string name="package_name">com.stevenzieske.mycontacts</string>
+    <string name="custom_url_scheme">com.stevenzieske.mycontacts</string>
 </resources>
