@@ -1,11 +1,14 @@
 # Capacitor Contacts App
 
 This app has been tested on:
-- IOS emulator
-- IOS physical device
-- Android emulator
+
+-   IOS emulator
+-   IOS physical device
+-   Android emulator
 
 ## Requirements
+
+---
 
 The task is to create an Android or iOS app with which the contacts on the device can be managed.
 
@@ -57,3 +60,33 @@ The task is to create an Android or iOS app with which the contacts on the devic
 -   To delete a contact click on the **Delete** button in the top right corner. You will be prompted with a confirmation dialog. Clicking **Yes** will delete the contact and navigate back to the home screen. Clicking **No** will close the dialog.<br/>
     <img src="./docuAssets/details_delete.png" alt="newContact" width="200"/>
     <br/>
+
+## Presentation
+
+-   Welche Funktionen hat die App?
+    -   Die App zeigt alle Kontakte des Geräts an
+    -   Es können Kontakte gesucht werden
+    -   Es können neue Kontakte hinzugefügt werden
+    -   Bestehende Kontakte können angezeigt werden
+    -   Telefonnummern/E-Mails können kopiert werden
+    -   Telefonnummern/E-Mails können angerufen/in der standard Mail-App geöffnet werden
+    -   Bestehende Kontakte können gelöscht werden
+-   Welche Probleme traten auf/Wie wurden die Probleme gelöst?
+    -   Wenn der App die Berechtigung genommmen wird auf die Kontakte zu zugreifen wird nicht erneut nach der Berechtigung gefragt -> Alert Fenster wird geöffnet um direkt in die Einstellungen der App zu kommen und die Berechtigung manuell zu vergeben
+-   Gibt es Einschränkungen auf bestimmten Plattformen?
+    -   keine bekannt (getestet virtuell auf IOS und Android, pyhsisch auf IOS)
+-   Welche nativen Schnittstellen (Plugins) wurden benutzt?
+    -   @capacitor-community/contacts
+    -   @capacitor/clipboard
+    -   capacitor-native-settings
+-   Was gab es sonst zu beachten?
+    -   einfache Implementierung der Telefonnummer/E-Mail "tel:0176XXXXXXXX", "mailto:XXXXXXXXX" -> React methode window.open
+    ```javascript
+    function openExternal(type: string, payload: string) {
+        try {
+            window.open(`${type}:${payload}`);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    ```
